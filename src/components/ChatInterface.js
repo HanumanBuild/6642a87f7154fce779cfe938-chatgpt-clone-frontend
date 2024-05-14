@@ -1,9 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { sendMessage } from '../utils/api';
+import { sendMessage, getChatHistory } from '../utils/api';
 
 const ChatInterface = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
+
+  useEffect(() => {
+    const fetchChatHistory = async () => {
+      try {
+        const history = await getChatHistory();
+        setMessages(history.messages);
+      } catch (error) {
+        console.error('Error retrieving chat history:', error);
+      }
+    };
+
+    fetchChatHistory();
+  }, []);
 
   const handleSendMessage = async () => {
     if (input.trim() === '') return;
