@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { login } from '../utils/api';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -7,7 +7,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(process.env.REACT_APP_BACKEND_URL + '/api/auth/login', { email, password });
+      const response = await login(email, password);
       // Handle successful login (e.g., store token, redirect)
     } catch (error) {
       console.error('Error logging in:', error);

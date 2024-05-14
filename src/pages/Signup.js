@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { signup } from '../utils/api';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -7,7 +7,7 @@ const Signup = () => {
 
   const handleSignup = async () => {
     try {
-      const response = await axios.post(process.env.REACT_APP_BACKEND_URL + '/api/auth/signup', { email, password });
+      const response = await signup(email, password);
       // Handle successful signup (e.g., redirect to login)
     } catch (error) {
       console.error('Error signing up:', error);
