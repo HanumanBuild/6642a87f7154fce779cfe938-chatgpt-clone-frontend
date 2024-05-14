@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { sendMessage } from '../utils/api';
 
 const ChatInterface = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
 
-  const sendMessage = async () => {
+  const handleSendMessage = async () => {
     if (input.trim() === '') return;
     const newMessage = { text: input, sender: 'user' };
     setMessages([...messages, newMessage]);
     setInput('');
 
     try {
-      const response = await axios.post(process.env.REACT_APP_BACKEND_URL + '/api/chat', { message: input });
-      setMessages([...messages, newMessage, { text: response.data.reply, sender: 'bot' }]);
+      const response = await sendMessage(input);
+      setMessages([...messages, newMessage, { text: response.reply, sender: 'bot' }]);
     } catch (error) {
       console.error('Error sending message:', error);
     }
@@ -38,7 +38,7 @@ const ChatInterface = () => {
           className="w-full p-2 border rounded"
           placeholder="Type your message..."
         />
-        <button onClick={sendMessage} className="mt-2 w-full p-2 bg-blue-500 text-white rounded">Send</button>
+        <button onClick={handleSendMessage} className="mt-2 w-full p-2 bg-blue-500 text-white rounded">Send</button>
       </div>
     </div>
   );
